@@ -28,6 +28,7 @@ connection.once("open", () => {
     gfs = Grid(connection.db);
 
     router.post('/uploadVideo', (req, res) => {
+        
         var fstream;
         req.pipe(req.busboy);
         req.busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
@@ -50,6 +51,8 @@ connection.once("open", () => {
 });
 
 router.post('/videoDetails', function (req, res) {
+    //
+    // parameters enterprise_username, video and video meta data, tags (simple JSON array) 
     Video.findOne().sort({ videoId: -1 }).limit(1).exec(function (err, video) {
         if (err) {
             console.log(err);
@@ -104,6 +107,7 @@ router.get('/', function (req, res) {
 });
 
 router.get('/details/:ename', function (req, res) {
+    // returns coins per hour and coin videos
     console.log(req.params.ename);
     Enterprise.findOne({ 'ename': req.params.ename }, function (err, record) {
         if (err) {
